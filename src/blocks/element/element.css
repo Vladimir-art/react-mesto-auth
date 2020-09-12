@@ -1,0 +1,24 @@
+@import url(./__image/element__image.css);
+@import url(./__places/element__places.css);
+@import url(./__place/element__place.css);
+@import url(./__likes/element__likes.css);
+@import url(./__count/element__count.css);
+@import url(./__count/_hidden/element__count_hidden.css);
+@import url(./__button/element__button.css);
+@import url(./__button/_like-active/element__button_like-active.css);
+@import url(./__button/_hidden/element__button_hidden.css);
+@import url(./__trash/element__trash.css);
+@import url(./__trash/_hidden/element__trash_hidden.css);
+
+.element {
+  max-width: 282px;
+  background-color: #fff;
+  border-radius: 10px;
+  position: relative;
+  transition: all .3s ease;
+}
+
+.element:hover {
+  transform: scale(1.05);
+}
+

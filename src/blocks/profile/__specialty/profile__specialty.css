@@ -1,0 +1,16 @@
+.profile__specialty {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+@media screen and (max-width: 1023px) and (min-width: 320px) {
+  .profile__specialty {
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+  }
+}

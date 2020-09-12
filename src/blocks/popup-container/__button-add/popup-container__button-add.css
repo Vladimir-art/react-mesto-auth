@@ -1,0 +1,16 @@
+.popup-container__button-add {
+  width: 100%;
+  min-height: 50px;
+  background-color: #000;
+  text-align: center;
+  color: #fff;
+  margin: 12px 0 35px 0;
+  border: 0;
+  border-radius: 2px;
+}
+
+.popup-container__button-add:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: .2s ease-in-out;
+}

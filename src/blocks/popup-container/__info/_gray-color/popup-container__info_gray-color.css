@@ -1,0 +1,15 @@
+.popup-container__info_gray-color ::placeholder {
+  color: #C4C4C4;
+}
+
+.popup-container__info_gray-color ::-webkit-input-placeholder {
+  color: #C4C4C4;
+}
+
+.popup-container__info_gray-color ::-moz-placeholder {
+  color: #C4C4C4;
+}
+
+.popup-container__info_gray-color ::-ms-input-placeholder {
+  color: #C4C4C4;
+}

@@ -1,0 +1,7 @@
+@import url(./__picture/popup-image__picture.css);
+@import url(./__caption/popup-image__caption.css);
+
+.popup-image {
+  position: relative;
+  margin: 0;
+}
