@@ -1,0 +1,14 @@
+@import url(./__text/register__text.css);
+@import url(./__form/register__form.css);
+@import url(./__auth/register__auth.css);
+@import url(./__input/register__input.css);
+@import url(./__input-error/register__input-error.css);
+@import url(./__input-error/_active/register__input-error_active.css);
+@import url(./__btn-submit/register__btn-submit.css);
+@import url(./__have-auth/register__have-auth.css);
+@import url(./__enter/register__enter.css);
+
+.register {
+  width: 100%;
+  height: 100vh;
+}
