@@ -1,0 +1,10 @@
+.header__list {
+  margin: 0;
+  padding: 0;
+  transition: all .2s ease;
+}
+
+.header__list:hover {
+  opacity: .6;
+  cursor: pointer;
+}

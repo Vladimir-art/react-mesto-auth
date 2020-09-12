@@ -1,0 +1,11 @@
+.header__info {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__info :first-child {
+  margin-right: 24px;
+}
