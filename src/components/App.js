@@ -1,15 +1,16 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import logo from '../images/mesto-logo.svg';
 import Header from './Header';
 import Main from './Main';
-// import Register from './Register';
-// import Login from './Login';
+import Register from './Register';
+import Login from './Login';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import EditVerificationPopup from './EditVerificationPopup';
 import ImagePopup from './ImagePopup';
-// import InfoTooltip from './InfoTooltip';
+import InfoTooltip from './InfoTooltip';
 import Footer from './Footer';
 import { api } from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -171,15 +172,25 @@ function App() {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Header logo={logo} />
-        <Main
-          onEditProfile={handleEditProfileClick} //передает ф-цию по клике на редактирование профиля
-          onAddPlace={handleAddPlaceClick} // передает ф-цию по клике на кнопку добавления нового места
-          onEditAvatar={handleEditAvatarClick} //ф-ция по клику на смену аватара
-          onCardClick={handleCardClick} //ф-ция по клике на картинку
-          onTrashClick={handleVerificationClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-        />
+        <Switch>
+          <Route exact path="/">
+            <Main
+              onEditProfile={handleEditProfileClick} //передает ф-цию по клике на редактирование профиля
+              onAddPlace={handleAddPlaceClick} // передает ф-цию по клике на кнопку добавления нового места
+              onEditAvatar={handleEditAvatarClick} //ф-ция по клику на смену аватара
+              onCardClick={handleCardClick} //ф-ция по клике на картинку
+              onTrashClick={handleVerificationClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+            />
+          </Route>
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+        </Switch>
 
         <EditProfilePopup
           overlay={overlayClick}
