@@ -1,10 +1,11 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import logo from '../images/mesto-logo.svg';
 import Header from './Header';
 import Main from './Main';
 import Register from './Register';
 import Login from './Login';
+import ProtectedRoute from './ProtectedRoute';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -24,6 +25,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(false); //открытие картинки
   const [showImage, setShowImage] = React.useState({}); //данные картинки
   const [text, setText] = React.useState(false); //стейт для изменения текта при загрузке сервера
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   const [currentUser, setCurrentUser] = React.useState({}); //получаем информацию об авторе
   const [cards, setCards] = React.useState([]);//создает стейт из пустого массива (в нем будет хранится массив карточек)
@@ -173,7 +175,19 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         <Header logo={logo} />
         <Switch>
-          <Route exact path="/">
+          <ProtectedRoute
+            exact path="/"
+            loggedIn={loggedIn}
+            component={Main}
+            onEditProfile={handleEditProfileClick} //передает ф-цию по клике на редактирование профиля
+            onAddPlace={handleAddPlaceClick} // передает ф-цию по клике на кнопку добавления нового места
+            onEditAvatar={handleEditAvatarClick} //ф-ция по клику на смену аватара
+            onCardClick={handleCardClick} //ф-ция по клике на картинку
+            onTrashClick={handleVerificationClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+          />
+          {/* <Route exact path="/profile">
             <Main
               onEditProfile={handleEditProfileClick} //передает ф-цию по клике на редактирование профиля
               onAddPlace={handleAddPlaceClick} // передает ф-цию по клике на кнопку добавления нового места
@@ -183,12 +197,15 @@ function App() {
               cards={cards}
               onCardLike={handleCardLike}
             />
-          </Route>
-          <Route path="/sign-up">
+          </Route> */}
+          <Route path="/signup">
             <Register />
           </Route>
-          <Route path="/sign-in">
+          <Route path="/signin">
             <Login />
+          </Route>
+          <Route>
+            {loggedIn ? <Redirect to="/signin" /> : <Redirect to="/signup" />}
           </Route>
         </Switch>
 
