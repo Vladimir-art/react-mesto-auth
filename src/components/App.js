@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../images/mesto-logo.svg';
 import Header from './Header';
 import Main from './Main';
+import Register from './Register';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -88,12 +89,6 @@ function App() {
     });
   }, []);
 
-  // function escClick(e) { //закрытие попара по esc (не закрывется попап с аватар и картинкой)
-  //   if (e.key === 'Escape') {
-  //     closeAllPopups();
-  //   }
-  // }
-
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(item => item._id === currentUser._id);
@@ -174,7 +169,8 @@ function App() {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Header logo={logo} />
-        <Main
+        <Register />
+        {/* <Main
           onEditProfile={handleEditProfileClick} //передает ф-цию по клике на редактирование профиля
           onAddPlace={handleAddPlaceClick} // передает ф-цию по клике на кнопку добавления нового места
           onEditAvatar={handleEditAvatarClick} //ф-ция по клику на смену аватара
@@ -182,7 +178,7 @@ function App() {
           onTrashClick={handleVerificationClick}
           cards={cards}
           onCardLike={handleCardLike}
-        />
+        /> */}
 
         <EditProfilePopup
           overlay={overlayClick}

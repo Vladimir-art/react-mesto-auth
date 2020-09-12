@@ -1,7 +1,6 @@
 import React from 'react';
 
 function PopupWithForm(props) {
-  // console.log(props.isButtonDisable)
 
   return (
     <>
