@@ -1,15 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as Auth from './Auth';
 
 function Register(props) {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory();
 
   function handleSubmit(e) {
     e.preventDefault()
-    Auth.register(email, password);
+    Auth.register(email, password)
+      .then(() => {
+        history.push('/signin');
+      })
   }
 
   return (

@@ -16,23 +16,17 @@ function Login(props) {
           setEmail('');
           setPassword('');
           props.onLogin();
+          props.isAuth('');
           history.push('/');
           return;
         }
       })
-    // .then(() => {
-    //   Auth.enter()
-    //     .then(() => {
-    //       props.onLogin();
-    //       history.push('/');
-    //       setEmail('');
-    //       setPassword('');
-    //     })
-    //     .catch((err) => console.log(err));
-    // })
-    // .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(`Упс, произошла ошибка: ${err}`);
+        props.isAuth(err.message);
+      })
   }
-  // console.log(props.onLogin);
+
   return (
     <>
       <section className="register">

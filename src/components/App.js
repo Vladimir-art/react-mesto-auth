@@ -26,7 +26,9 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(false); //открытие картинки
   const [showImage, setShowImage] = React.useState({}); //данные картинки
   const [text, setText] = React.useState(false); //стейт для изменения текта при загрузке сервера
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [isEnter, setIsEnter] = React.useState({enter: false, mess: ''}); // стейт для всплывающего окна аутентификации
+  const [loggedIn, setLoggedIn] = React.useState(false); // стейт чтоб войти при успешной авторизации
+  const [userData, setUserData] = React.useState(''); // стейт получения майл пользователя
   const history = useHistory();
 
   const [currentUser, setCurrentUser] = React.useState({}); //получаем информацию об авторе
@@ -52,11 +54,19 @@ function App() {
   function changeText() { //смена текта при апи запросе
     setText(true);
   }
-
+  // меняет стейт и можно попасть на свою страницу
   function handleLogin() {
     setLoggedIn(true);
-    console.log(localStorage.getItem('jwt'));
   }
+  // при нажатии "Выйти" меняет стейт
+  function closeLogin() {
+    setLoggedIn(false);
+  }
+  // при любом исходе запроса открывает всплывющее окно (если есть тект ошибки, меняет картинку и тект в окне)
+  function handleAuth(e) {
+    setIsEnter({enter: true, mess: `${e}`})
+  }
+
   //функция меняет хначения при клике на картинку и передает showImage данные об этой картинке (получает из компонента ImagePopup)
   function handleCardClick(data) {
     setSelectedCard(true);
@@ -84,6 +94,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(false);
+    setIsEnter({enter: false, mess: ''});
     setIsEditVerificationPopupOpen({ state: false, cardId: '', elem: {} });
   }
 
@@ -176,43 +187,33 @@ function App() {
         setText(false); //меняет текст кнопки сабмита
       });
   }
-
+  // при монтировании при удачном запросе вызывает ф-цию по получению email
   React.useEffect(() => {
-    console.log(localStorage.getItem('jwt'));
     tokenCheck();
   }, [loggedIn]);
 
+  // проверяет токен в локальном хранилище, если он есть, делает запрос
   function tokenCheck() {
-    // console.log(localStorage.getItem('jwt'));
     if (localStorage.getItem('jwt')) {
       let jwt = localStorage.getItem('jwt');
-      console.log(jwt);
       Auth.getContent(jwt)
         .then((data) => {
           if (data) {
             setLoggedIn(true);
             history.push('/');
+            setUserData(`${data.data.email}`);
           }
+        })
+        .catch((err) => {
+          console.log(`Упс, произошла ошибка: ${err}`);
         })
     }
   }
-  // console.log(localStorage.getItem('jwt'));
-  // if (localStorage.getItem('jwt')) {
-  //   let jwt = localStorage.getItem('jwt');
-  //   console.log(jwt);
-  //   Auth.getContent(jwt)
-  //     .then((data) => {
-  //       if (data) {
-  //         setLoggedIn(true);
-  //         history.push('/');
-  //       }
-  //     })
-  // }
-  console.log(localStorage.getItem('jwt'));
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header logo={logo} loggedIn={loggedIn} />
+        <Header logo={logo} loggedIn={loggedIn} user={userData} close={closeLogin} />
         <Switch>
           <ProtectedRoute
             exact path="/"
@@ -230,12 +231,14 @@ function App() {
             <Register />
           </Route>
           <Route path="/signin">
-            <Login onLogin={handleLogin} />
+            <Login onLogin={handleLogin} isAuth={handleAuth} />
           </Route>
           <Route>
             {loggedIn ? <Redirect to="/signin" /> : <Redirect to="/signup" />}
           </Route>
         </Switch>
+
+        <InfoTooltip isOpen={isEnter} onClose={closeAllPopups} />
 
         <EditProfilePopup
           overlay={overlayClick}
