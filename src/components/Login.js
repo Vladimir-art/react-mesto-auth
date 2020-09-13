@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Login(props) {
 
@@ -14,7 +15,7 @@ function Login(props) {
             <span className="register__input-error" id="password-input-error">123</span>
           </fieldset>
           <button className="register__btn-submit" type="submit">Войти</button>
-          <p className="register__have-auth">Ещё не зарегистрированы? <a className="register__enter" href="/">Регистрация</a></p>
+          <p className="register__have-auth">Ещё не зарегистрированы? <Link className="register__enter" to="/signup">Регистрация</Link></p>
         </form>
       </section>
     </>
