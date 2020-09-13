@@ -173,7 +173,7 @@ function App() {
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header logo={logo} />
+        <Header logo={logo} loggedIn={loggedIn} />
         <Switch>
           <ProtectedRoute
             exact path="/"
@@ -187,17 +187,6 @@ function App() {
             cards={cards}
             onCardLike={handleCardLike}
           />
-          {/* <Route exact path="/profile">
-            <Main
-              onEditProfile={handleEditProfileClick} //передает ф-цию по клике на редактирование профиля
-              onAddPlace={handleAddPlaceClick} // передает ф-цию по клике на кнопку добавления нового места
-              onEditAvatar={handleEditAvatarClick} //ф-ция по клику на смену аватара
-              onCardClick={handleCardClick} //ф-ция по клике на картинку
-              onTrashClick={handleVerificationClick}
-              cards={cards}
-              onCardLike={handleCardLike}
-            />
-          </Route> */}
           <Route path="/signup">
             <Register />
           </Route>
