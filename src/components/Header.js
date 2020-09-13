@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Header(props) {
+
   const [isEnter, setIsEnter] = React.useState(true);
-  // let isEnter = true;
   const [link, setLink] = React.useState({name: 'Регистрация', path: '/signup'});
 
   function changeLink() {

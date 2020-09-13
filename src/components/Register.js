@@ -18,9 +18,23 @@ function Register(props) {
         <form className="register__form" onSubmit={handleSubmit}>
           <h2 className="register__text">Регистрация</h2>
           <fieldset className="register__auth">
-            <input className="register__input" id="login" placeholder="Email" type="email" name="email" onChange={(e) => setEmail(e.target.value)}></input>
+            <input
+              className="register__input"
+              id="login"
+              placeholder="Email"
+              type="email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}>
+            </input>
             <span className="register__input-error" id="login-input-error">123</span>
-            <input className="register__input" id="password" placeholder="Пароль" type="password" name="password" onChange={(e) => setPassword(e.target.value)}></input>
+            <input
+              className="register__input"
+              id="password"
+              placeholder="Пароль"
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}>
+            </input>
             <span className="register__input-error" id="password-input-error">123</span>
           </fieldset>
           <button className="register__btn-submit" type="submit">Зарегистрироваться</button>

@@ -50,6 +50,10 @@ function App() {
   function changeText() { //смена текта при апи запросе
     setText(true);
   }
+
+  function handleLogin() { //смена текта при апи запросе
+    setLoggedIn(true);
+  }
   //функция меняет хначения при клике на картинку и передает showImage данные об этой картинке (получает из компонента ImagePopup)
   function handleCardClick(data) {
     setSelectedCard(true);
@@ -191,7 +195,7 @@ function App() {
             <Register />
           </Route>
           <Route path="/signin">
-            <Login />
+            <Login onLogin={handleLogin} />
           </Route>
           <Route>
             {loggedIn ? <Redirect to="/signin" /> : <Redirect to="/signup" />}
