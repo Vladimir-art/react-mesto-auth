@@ -21,7 +21,7 @@ function Header(props) {
         <img className="header__logo" src={props.logo} alt="Логотип-Место" />
         <ul className="header__info">
           <li className="header__list"><Link className="header__link" to={link.path} onClick={changeLink}>{link.name}</Link></li>
-          <li className="header__list"><Link className={`header__link header__link_gray ${handleHiddenLink}`} to="/signin">Text 2</Link></li>
+          <li className="header__list"><Link className={`header__link header__link_gray ${handleHiddenLink}`} to="/signin" onClick={localStorage.removeItem('jwt')}>Выйти</Link></li>
         </ul>
       </header>
     </>

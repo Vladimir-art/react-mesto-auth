@@ -11,19 +11,28 @@ function Login(props) {
   function handleSubmit(e) {
     e.preventDefault()
     Auth.login(email, password)
-      .then(() => {
-        Auth.enter()
-          .then(() => {
-            props.onLogin();
-            history.push('/');
-            setEmail('');
-            setPassword('');
-          })
-          .catch((err) => console.log(err));
+      .then((data) => {
+        if (data.token) {
+          setEmail('');
+          setPassword('');
+          props.onLogin();
+          history.push('/');
+          return;
+        }
       })
-      .catch((err) => console.log(err));
+    // .then(() => {
+    //   Auth.enter()
+    //     .then(() => {
+    //       props.onLogin();
+    //       history.push('/');
+    //       setEmail('');
+    //       setPassword('');
+    //     })
+    //     .catch((err) => console.log(err));
+    // })
+    // .catch((err) => console.log(err));
   }
-
+  // console.log(props.onLogin);
   return (
     <>
       <section className="register">

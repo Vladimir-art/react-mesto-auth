@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import logo from '../images/mesto-logo.svg';
 import Header from './Header';
 import Main from './Main';
@@ -15,6 +15,7 @@ import InfoTooltip from './InfoTooltip';
 import Footer from './Footer';
 import { api } from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import * as Auth from './Auth';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
   const [showImage, setShowImage] = React.useState({}); //данные картинки
   const [text, setText] = React.useState(false); //стейт для изменения текта при загрузке сервера
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const history = useHistory();
 
   const [currentUser, setCurrentUser] = React.useState({}); //получаем информацию об авторе
   const [cards, setCards] = React.useState([]);//создает стейт из пустого массива (в нем будет хранится массив карточек)
@@ -51,8 +53,9 @@ function App() {
     setText(true);
   }
 
-  function handleLogin() { //смена текта при апи запросе
+  function handleLogin() {
     setLoggedIn(true);
+    console.log(localStorage.getItem('jwt'));
   }
   //функция меняет хначения при клике на картинку и передает showImage данные об этой картинке (получает из компонента ImagePopup)
   function handleCardClick(data) {
@@ -174,6 +177,38 @@ function App() {
       });
   }
 
+  React.useEffect(() => {
+    console.log(localStorage.getItem('jwt'));
+    tokenCheck();
+  }, [loggedIn]);
+
+  function tokenCheck() {
+    // console.log(localStorage.getItem('jwt'));
+    if (localStorage.getItem('jwt')) {
+      let jwt = localStorage.getItem('jwt');
+      console.log(jwt);
+      Auth.getContent(jwt)
+        .then((data) => {
+          if (data) {
+            setLoggedIn(true);
+            history.push('/');
+          }
+        })
+    }
+  }
+  // console.log(localStorage.getItem('jwt'));
+  // if (localStorage.getItem('jwt')) {
+  //   let jwt = localStorage.getItem('jwt');
+  //   console.log(jwt);
+  //   Auth.getContent(jwt)
+  //     .then((data) => {
+  //       if (data) {
+  //         setLoggedIn(true);
+  //         history.push('/');
+  //       }
+  //     })
+  // }
+  console.log(localStorage.getItem('jwt'));
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>

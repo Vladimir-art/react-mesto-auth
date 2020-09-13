@@ -56,18 +56,19 @@ export const login = (email, password) => {
     })
     .then((data) => {
       localStorage.setItem('jwt', data.token);
+      console.log(localStorage.getItem('jwt')) // показывает токен
       return data;
     })
     .catch((err) => console.log(err));
 }
 
-export const enter = () => {
+export const getContent = (token) => {
   return fetch(`${baseUrl}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `Bearer ${localStorage.getItem('jwt')}`
-    }
+      "Authorization": `Bearer ${token}`
+    },
   })
     .then((res) => {
       try {
@@ -82,8 +83,8 @@ export const enter = () => {
         return err;
       }
     })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => console.log(err));
+  .then((data) => {
+    return data;
+  })
+  .catch((err) => console.log(err));
 }

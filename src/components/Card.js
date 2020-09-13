@@ -5,7 +5,7 @@ function Card(props) {
   const [error, setError] = React.useState(false); //стейт для проверки правильности ссылки
 
   function errorLoadImage(e) {
-    e.target.setAttribute('src', 'https://image.freepik.com/free-vector/404_115790-50.jpg'); //усди ссылка неверна, загрузит стандартную картинку
+    e.target.setAttribute('src', 'https://image.freepik.com/free-vector/404_115790-50.jpg'); //eсди ссылка неверна, загрузит стандартную картинку
     setError(true); //поменяет стейт
   }
 
