@@ -31,6 +31,8 @@ function App() {
   const [userData, setUserData] = React.useState(''); // стейт получения майл пользователя
   const history = useHistory();
 
+  const [auth, setAuth] = React.useState(true);
+
   const [currentUser, setCurrentUser] = React.useState({}); //получаем информацию об авторе
   const [cards, setCards] = React.useState([]);//создает стейт из пустого массива (в нем будет хранится массив карточек)
 
@@ -50,6 +52,10 @@ function App() {
         console.log(`Упс, произошла ошибка: ${err}`);
       });
   }, []);
+
+  function toggleAuth() {
+    setAuth(!auth);
+  }
 
   function changeText() { //смена текта при апи запросе
     setText(true);
@@ -209,11 +215,11 @@ function App() {
         })
     }
   }
-
+console.log(auth)
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header logo={logo} loggedIn={loggedIn} user={userData} close={closeLogin} />
+        <Header logo={logo} loggedIn={loggedIn} user={userData} close={closeLogin} changeAuth={toggleAuth} isToggle={auth} />
         <Switch>
           <ProtectedRoute
             exact path="/"
@@ -228,10 +234,10 @@ function App() {
             onCardLike={handleCardLike}
           />
           <Route path="/signup">
-            <Register />
+            <Register changeAuth={toggleAuth} />
           </Route>
           <Route path="/signin">
-            <Login onLogin={handleLogin} isAuth={handleAuth} />
+            <Login onLogin={handleLogin} isAuth={handleAuth} changeAuth={toggleAuth} />
           </Route>
           <Route>
             {loggedIn ? <Redirect to="/signin" /> : <Redirect to="/signup" />}

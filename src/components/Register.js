@@ -8,6 +8,10 @@ function Register(props) {
   const [password, setPassword] = React.useState('');
   const history = useHistory();
 
+  function changeToggle() {
+    props.changeAuth();
+  }
+
   function handleSubmit(e) {
     e.preventDefault()
     Auth.register(email, password)
@@ -42,7 +46,7 @@ function Register(props) {
             <span className="register__input-error" id="password-input-error">123</span>
           </fieldset>
           <button className="register__btn-submit" type="submit">Зарегистрироваться</button>
-          <p className="register__have-auth">Уже зарегистрированы? <Link className="register__enter" to="/signin">Войти</Link></p>
+          <p className="register__have-auth">Уже зарегистрированы? <Link className="register__enter" to="/signin" onClick={changeToggle}>Войти</Link></p>
         </form>
       </section>
     </>

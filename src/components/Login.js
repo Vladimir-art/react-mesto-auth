@@ -8,6 +8,10 @@ function Login(props) {
   const [password, setPassword] = React.useState('');
   const history = useHistory();
 
+  function changeToggle() {
+    props.changeAuth();
+  }
+
   function handleSubmit(e) {
     e.preventDefault()
     Auth.login(email, password)
@@ -39,7 +43,7 @@ function Login(props) {
             <span className="register__input-error" id="password-input-error">123</span>
           </fieldset>
           <button className="register__btn-submit" type="submit">Войти</button>
-          <p className="register__have-auth">Ещё не зарегистрированы? <Link className="register__enter" to="/signup">Регистрация</Link></p>
+          <p className="register__have-auth">Ещё не зарегистрированы? <Link className="register__enter" to="/signup" onClick={changeToggle}>Регистрация</Link></p>
         </form>
       </section>
     </>
