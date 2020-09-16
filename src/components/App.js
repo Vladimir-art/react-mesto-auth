@@ -201,7 +201,7 @@ function App() {
   // проверяет токен в локальном хранилище, если он есть, делает запрос
   function tokenCheck() {
     if (localStorage.getItem('jwt')) {
-      let jwt = localStorage.getItem('jwt');
+      const jwt = localStorage.getItem('jwt');
       Auth.getContent(jwt)
         .then((data) => {
           if (data) {
@@ -240,7 +240,7 @@ console.log(auth)
             <Login onLogin={handleLogin} isAuth={handleAuth} changeAuth={toggleAuth} />
           </Route>
           <Route>
-            {loggedIn ? <Redirect to="/signin" /> : <Redirect to="/signup" />}
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
           </Route>
         </Switch>
 

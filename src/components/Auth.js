@@ -1,7 +1,7 @@
-export const baseUrl = 'https://auth.nomoreparties.co';
+import { baseUrlAuth } from '../utils/utils';
 
 export const register = (email, password) => {
-  return fetch(`${baseUrl}/signup`, {
+  return fetch(`${baseUrlAuth}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -20,15 +20,15 @@ export const register = (email, password) => {
       catch (err) {
         return err;
       }
+      return res;
     })
     .then((res) => {
       return res;
-    })
-    .catch((err) => console.log(err));
+    });
 }
 
 export const login = (email, password) => {
-  return fetch(`${baseUrl}/signin`, {
+  return fetch(`${baseUrlAuth}/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -58,12 +58,11 @@ export const login = (email, password) => {
       localStorage.setItem('jwt', data.token);
       console.log(localStorage.getItem('jwt')) // показывает токен
       return data;
-    })
-    .catch((err) => console.log(err));
+    });
 }
 
 export const getContent = (token) => {
-  return fetch(`${baseUrl}/users/me`, {
+  return fetch(`${baseUrlAuth}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -83,8 +82,7 @@ export const getContent = (token) => {
         return err;
       }
     })
-  .then((data) => {
-    return data;
-  })
-  .catch((err) => console.log(err));
+    .then((data) => {
+      return data;
+    });
 }

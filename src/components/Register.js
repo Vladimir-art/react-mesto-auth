@@ -6,6 +6,7 @@ function Register(props) {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [errorReg, setErrorReg] = React.useState(false);
   const history = useHistory();
 
   function changeToggle() {
@@ -15,13 +16,20 @@ function Register(props) {
   function handleSubmit(e) {
     e.preventDefault()
     Auth.register(email, password)
-      .then(() => {
-        history.push('/signin');
+      .then((res) => {
+        if (!res.ok) {
+          setErrorReg(true);
+        } else {
+          setErrorReg(false);
+          history.push('/signin');
+        }
+      })
+      .catch((err) => {
+        console.log(`Упс, произошла ошибка: ${err}`);
       })
   }
 
   return (
-    <>
       <section className="register">
         <form className="register__form" onSubmit={handleSubmit}>
           <h2 className="register__text">Регистрация</h2>
@@ -46,10 +54,9 @@ function Register(props) {
             <span className="register__input-error" id="password-input-error">123</span>
           </fieldset>
           <button className="register__btn-submit" type="submit">Зарегистрироваться</button>
-          <p className="register__have-auth">Уже зарегистрированы? <Link className="register__enter" to="/signin" onClick={changeToggle}>Войти</Link></p>
+          <p className="register__have-auth">Уже зарегистрированы? <Link className="register__enter" to={!errorReg && "/signin"} onClick={changeToggle}>Войти</Link></p>
         </form>
       </section>
-    </>
   )
 }
 

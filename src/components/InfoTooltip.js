@@ -13,7 +13,6 @@ function InfoTooltip(props) {
   )
 
   return (
-    <>
       <section className={`popup ${props.isOpen.enter && 'popup_opened'}`}>
         <figure className="popup-auth">
           <img className="popup-auth__picture" src={handleImage} alt="Изображение"/>
@@ -21,7 +20,6 @@ function InfoTooltip(props) {
           <button className="popup-container__button-reset popup-container__button-reset_image" type="reset" aria-label="Close" onClick={props.onClose}></button>
         </figure>
       </section>
-    </>
   )
 }
 

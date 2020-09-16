@@ -1,4 +1,5 @@
 export const baseUrl = 'https://mesto.nomoreparties.co/v1/cohort-12'; //базовый URL
+export const baseUrlAuth = 'https://auth.nomoreparties.co';
 
 export const formConfig = {
   inputSelector: '.popup-container__infoform', //поле формы

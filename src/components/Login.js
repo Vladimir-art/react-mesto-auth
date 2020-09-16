@@ -22,7 +22,6 @@ function Login(props) {
           props.onLogin();
           props.isAuth('');
           history.push('/');
-          return;
         }
       })
       .catch((err) => {
@@ -32,7 +31,6 @@ function Login(props) {
   }
 
   return (
-    <>
       <section className="register">
         <form className="register__form" onSubmit={handleSubmit}>
           <h2 className="register__text">Вход</h2>
@@ -46,7 +44,6 @@ function Login(props) {
           <p className="register__have-auth">Ещё не зарегистрированы? <Link className="register__enter" to="/signup" onClick={changeToggle}>Регистрация</Link></p>
         </form>
       </section>
-    </>
   )
 }
 
