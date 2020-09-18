@@ -27,14 +27,14 @@ function App() {
   const [showImage, setShowImage] = React.useState({}); //данные картинки
   const [text, setText] = React.useState(false); //стейт для изменения текта при загрузке сервера
 
-  const [isEnter, setIsEnter] = React.useState(false); // стейт для всплывающего окна аутентификации
+  const [isEnter, setIsEnter] = React.useState(false); // стейт для всплывающего окна с успешным (или нет) входом
 
   const [loggedIn, setLoggedIn] = React.useState(false); // стейт чтоб войти при успешной авторизации
   const [userData, setUserData] = React.useState(''); // стейт получения майл пользователя
   const history = useHistory();
 
-  const [auth, setAuth] = React.useState(true);
-
+  const [auth, setAuth] = React.useState(true); // стейт для перключения между регистрацией и входом
+  const [errorReg, setErrorReg] = React.useState(false); // стейт с наличием ошибки при регистрации и входе (изначально ее нет)
   const [currentUser, setCurrentUser] = React.useState({}); //получаем информацию об авторе
   const [cards, setCards] = React.useState([]);//создает стейт из пустого массива (в нем будет хранится массив карточек)
 
@@ -55,6 +55,7 @@ function App() {
       });
   }, []);
 
+  // смена стейта для перключения между регистрацией и входом
   function toggleAuth() {
     setAuth(!auth);
   }
@@ -62,17 +63,10 @@ function App() {
   function changeText() { //смена текта при апи запросе
     setText(true);
   }
-  // меняет стейт и можно попасть на свою страницу
-  // function handleLogin() {
-  //   setLoggedIn(true);
-  // }
+
   // при нажатии "Выйти" меняет стейт
   function closeLogin() {
     setLoggedIn(false);
-  }
-  // при любом исходе запроса открывает всплывющее окно (если есть тект ошибки, меняет картинку и тект в окне)
-  function handleAuth(e) {
-    setIsEnter(true)
   }
 
   //функция меняет хначения при клике на картинку и передает showImage данные об этой картинке (получает из компонента ImagePopup)
@@ -102,7 +96,6 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(false);
-    // setErrorReg({err: false, status: true});
     setIsEnter(false);
     setIsEditVerificationPopupOpen({ state: false, cardId: '', elem: {} });
   }
@@ -208,9 +201,9 @@ function App() {
       Auth.getContent(jwt)
         .then((data) => {
           if (data) {
-            setLoggedIn(true);
-            history.push('/');
-            setUserData(`${data.data.email}`);
+            setLoggedIn(true); // меняем стейт для входа к карточкам
+            history.push('/'); // перенаправляем на нужную стр
+            setUserData(`${data.data.email}`); // меняем на имя в хедере
           }
         })
         .catch((err) => {
@@ -218,22 +211,21 @@ function App() {
         })
     }
   }
-  const [errorReg, setErrorReg] = React.useState(false);
+
   function register(email, password) {
     Auth.register(email, password)
       .then((res) => {
-        // setErrorReg(true);
-        if (!res.ok) {
-          setIsEnter(true);
-          setErrorReg(true);
+        if (!res.ok) { // если статус ответа false
+          setIsEnter(true); //открываем всплывающее окошко
+          setErrorReg(true); //меняем стейт, что есть ошибка
         } else {
-          setIsEnter(true);
-          setErrorReg(false);
+          setIsEnter(true); //если статус true, то все равно всплавает окошко
+          setErrorReg(false); // но наличие ошибки false
           history.push('/signin');
         }
       })
       .catch((err) => {
-        setIsEnter(true);
+        setIsEnter(true); //в случае иных ошибок появится окошко
         setErrorReg(true);
         console.log(`Упс, произошла ошибка: ${err}`);
       })
@@ -242,22 +234,18 @@ function App() {
   function login(email, password) {
     Auth.login(email, password)
       .then((data) => {
-        console.log(data);
         if (data.token) {
-          // setErrorReg(false);
-          setLoggedIn(true);
+          setLoggedIn(true); // если есть в ответе есть токен, то меняем стейт чтоб зайти к карточкам
         } else {
-          setIsEnter(true);
+          setIsEnter(true); //если ответ с ошибкой, то см. выше при регистрации
           setErrorReg(true);
         }
-
       })
       .catch((err) => {
-        // setErrorReg({err: true, status: err});
         console.log(`Упс, произошла ошибка: ${err}`);
       })
   }
-  // console.log(errorReg);
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -286,7 +274,7 @@ function App() {
           </Route>
         </Switch>
 
-        <InfoTooltip isOpen={errorReg} onClose={closeAllPopups} isEnter={isEnter} />
+        <InfoTooltip isEnter={errorReg} onClose={closeAllPopups} isOpen={isEnter} />
 
         <EditProfilePopup
           overlay={overlayClick}
