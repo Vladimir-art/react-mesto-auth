@@ -6,28 +6,29 @@ function Login(props) {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const history = useHistory();
+  // const history = useHistory();
 
   function changeToggle() {
     props.changeAuth();
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
-    Auth.login(email, password)
-      .then((data) => {
-        if (data.token) {
-          setEmail('');
-          setPassword('');
-          props.onLogin();
-          props.isAuth('');
-          history.push('/');
-        }
-      })
-      .catch((err) => {
-        console.log(`Упс, произошла ошибка: ${err}`);
-        props.isAuth(err.message);
-      })
+    e.preventDefault();
+    props.onSignIn(email, password);
+    // Auth.login(email, password)
+    //   .then((data) => {
+    //     if (data.token) {
+    //       setEmail('');
+    //       setPassword('');
+    //       props.onLogin();
+    //       props.isAuth('');
+    //       history.push('/');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(`Упс, произошла ошибка: ${err}`);
+    //     props.isAuth(err.message);
+    //   })
   }
 
   return (

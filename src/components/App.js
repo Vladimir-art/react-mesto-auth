@@ -26,7 +26,9 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(false); //открытие картинки
   const [showImage, setShowImage] = React.useState({}); //данные картинки
   const [text, setText] = React.useState(false); //стейт для изменения текта при загрузке сервера
-  const [isEnter, setIsEnter] = React.useState({enter: false, mess: ''}); // стейт для всплывающего окна аутентификации
+
+  const [isEnter, setIsEnter] = React.useState(false); // стейт для всплывающего окна аутентификации
+
   const [loggedIn, setLoggedIn] = React.useState(false); // стейт чтоб войти при успешной авторизации
   const [userData, setUserData] = React.useState(''); // стейт получения майл пользователя
   const history = useHistory();
@@ -61,16 +63,16 @@ function App() {
     setText(true);
   }
   // меняет стейт и можно попасть на свою страницу
-  function handleLogin() {
-    setLoggedIn(true);
-  }
+  // function handleLogin() {
+  //   setLoggedIn(true);
+  // }
   // при нажатии "Выйти" меняет стейт
   function closeLogin() {
     setLoggedIn(false);
   }
   // при любом исходе запроса открывает всплывющее окно (если есть тект ошибки, меняет картинку и тект в окне)
   function handleAuth(e) {
-    setIsEnter({enter: true, mess: `${e}`})
+    setIsEnter(true)
   }
 
   //функция меняет хначения при клике на картинку и передает showImage данные об этой картинке (получает из компонента ImagePopup)
@@ -100,7 +102,8 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(false);
-    setIsEnter({enter: false, mess: ''});
+    // setErrorReg({err: false, status: true});
+    setIsEnter(false);
     setIsEditVerificationPopupOpen({ state: false, cardId: '', elem: {} });
   }
 
@@ -215,7 +218,46 @@ function App() {
         })
     }
   }
-console.log(auth)
+  const [errorReg, setErrorReg] = React.useState(false);
+  function register(email, password) {
+    Auth.register(email, password)
+      .then((res) => {
+        // setErrorReg(true);
+        if (!res.ok) {
+          setIsEnter(true);
+          setErrorReg(true);
+        } else {
+          setIsEnter(true);
+          setErrorReg(false);
+          history.push('/signin');
+        }
+      })
+      .catch((err) => {
+        setIsEnter(true);
+        setErrorReg(true);
+        console.log(`Упс, произошла ошибка: ${err}`);
+      })
+  }
+
+  function login(email, password) {
+    Auth.login(email, password)
+      .then((data) => {
+        console.log(data);
+        if (data.token) {
+          // setErrorReg(false);
+          setLoggedIn(true);
+        } else {
+          setIsEnter(true);
+          setErrorReg(true);
+        }
+
+      })
+      .catch((err) => {
+        // setErrorReg({err: true, status: err});
+        console.log(`Упс, произошла ошибка: ${err}`);
+      })
+  }
+  // console.log(errorReg);
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -234,17 +276,17 @@ console.log(auth)
             onCardLike={handleCardLike}
           />
           <Route path="/signup">
-            <Register changeAuth={toggleAuth} />
+            <Register changeAuth={toggleAuth} onSignUp={register} isError={errorReg} />
           </Route>
           <Route path="/signin">
-            <Login onLogin={handleLogin} isAuth={handleAuth} changeAuth={toggleAuth} />
+            <Login changeAuth={toggleAuth} onSignIn={login} />
           </Route>
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
           </Route>
         </Switch>
 
-        <InfoTooltip isOpen={isEnter} onClose={closeAllPopups} />
+        <InfoTooltip isOpen={errorReg} onClose={closeAllPopups} isEnter={isEnter} />
 
         <EditProfilePopup
           overlay={overlayClick}

@@ -5,15 +5,15 @@ import authErr from '../images/Auth-err.svg';
 function InfoTooltip(props) {
 
   const handleText = ( // если есть тект ошибки, меняет тект в окошке
-    `${props.isOpen.mess ? 'Что-то пошло не так! Попробуйте ещё раз.' : 'Вы успешно зарегистрировались!'}`
+    `${props.isOpen ? 'Что-то пошло не так! Попробуйте ещё раз.' : 'Вы успешно зарегистрировались!'}`
   )
 
   const handleImage = ( // если есть тект ошибки, меняет картинку в окошке
-    `${props.isOpen.mess ? authErr : authOk}`
+    `${props.isOpen ? authErr : authOk}`
   )
-
+// console.log(props.isOpen.status);
   return (
-      <section className={`popup ${props.isOpen.enter && 'popup_opened'}`}>
+      <section className={`popup ${props.isEnter && 'popup_opened'}`}>
         <figure className="popup-auth">
           <img className="popup-auth__picture" src={handleImage} alt="Изображение"/>
           <figcaption className="popup-auth__caption">{handleText}</figcaption>

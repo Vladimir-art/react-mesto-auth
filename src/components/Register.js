@@ -1,32 +1,19 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import * as Auth from './Auth';
+import { Link } from 'react-router-dom';
+
 
 function Register(props) {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [errorReg, setErrorReg] = React.useState(false);
-  const history = useHistory();
 
   function changeToggle() {
     props.changeAuth();
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
-    Auth.register(email, password)
-      .then((res) => {
-        if (!res.ok) {
-          setErrorReg(true);
-        } else {
-          setErrorReg(false);
-          history.push('/signin');
-        }
-      })
-      .catch((err) => {
-        console.log(`Упс, произошла ошибка: ${err}`);
-      })
+    e.preventDefault();
+    props.onSignUp(email, password);
   }
 
   return (
@@ -54,7 +41,7 @@ function Register(props) {
             <span className="register__input-error" id="password-input-error">123</span>
           </fieldset>
           <button className="register__btn-submit" type="submit">Зарегистрироваться</button>
-          <p className="register__have-auth">Уже зарегистрированы? <Link className="register__enter" to={!errorReg && "/signin"} onClick={changeToggle}>Войти</Link></p>
+          <p className="register__have-auth">Уже зарегистрированы? <Link className="register__enter" to={!props.isError && "/signin"} onClick={changeToggle}>Войти</Link></p>
         </form>
       </section>
   )

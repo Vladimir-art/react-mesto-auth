@@ -43,20 +43,20 @@ export const login = (email, password) => {
         if (res.status === 200) {
           return res.json();
         }
-        if (res.status === 400) {
-          return console.log('не передано одно из полей')
-        }
-        if (res.status === 401) {
-          return console.log('пользователь с email не найден')
-        }
+        // if (res.status === 400) {
+        //   return console.log('не передано одно из полей')
+        // }
+        // if (res.status === 401) {
+        //   return console.log('пользователь с email не найден')
+        // }
       }
       catch (err) {
         return err;
-      }
+      };
+      return res;
     })
     .then((data) => {
       localStorage.setItem('jwt', data.token);
-      console.log(localStorage.getItem('jwt')) // показывает токен
       return data;
     });
 }
@@ -80,7 +80,8 @@ export const getContent = (token) => {
       }
       catch (err) {
         return err;
-      }
+      };
+      return res;
     })
     .then((data) => {
       return data;
